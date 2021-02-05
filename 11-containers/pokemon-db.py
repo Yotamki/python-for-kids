@@ -1,7 +1,9 @@
 # ייבוא ספריות חיצוניות
+import pickle
 import sys
 
 # הגדרת קבועים
+FILE_NAME = "pokemon-db.pkl"
 
 # הגדרת משתנים
 kids = {'Yarden': 'Charizard', 'Liya': 'Pikachu'}
@@ -10,6 +12,14 @@ kids = {'Yarden': 'Charizard', 'Liya': 'Pikachu'}
 def print_dict(dictionary):
     print(dictionary)
 
+
+# אכלס את המילון מהקובץ אם קיים
+try:
+    output_file = open(FILE_NAME, "rb")
+    kids = pickle.load(output_file)
+    output_file.close()
+except IOError:
+    pass
 
 # קבלת קלט מהמשתמש
 while True:
@@ -38,3 +48,15 @@ while True:
     elif input[0] == 'g':
         pokemon = kids.get(input[1], None)
         print(pokemon)
+
+    # שמור את תוכן המילון לקובץ
+    elif input[0] == 's':
+        try:
+            output_file = open(FILE_NAME, "wb")
+            pickle.dump(kids, output_file)
+            output_file.close()
+        except IOError:
+            pass
+
+    elif input[0] == 'q':
+        break
